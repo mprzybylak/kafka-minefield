@@ -1,6 +1,6 @@
 import java.util.Properties
 
-import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
+import org.apache.kafka.clients.producer.{Callback, KafkaProducer, ProducerRecord, RecordMetadata}
 
 object Main {
 
@@ -14,6 +14,18 @@ object Main {
     val producer = new KafkaProducer[String, String](producerProperties)
 
     val record = new ProducerRecord[String, String]("test", "key", "value")
-    producer.send(record);
+
+    // fire and forgett
+    producer.send(record)
+
+    // send returns future
+    val f = producer.send(record)
+
+    // send with callback
+    producer.send(record, (m:RecordMetadata, e:Exception) => {
+      print(m)
+      print(e)
+    })
+
   }
 }
