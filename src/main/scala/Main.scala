@@ -1,8 +1,10 @@
 import java.util
 import java.util.{Collections, Properties}
 
-import org.apache.kafka.clients.consumer.{ConsumerRecord, KafkaConsumer}
-import org.apache.kafka.clients.producer.{Callback, KafkaProducer, ProducerRecord, RecordMetadata}
+import org.apache.kafka.clients.consumer.{ConsumerRecord, ConsumerRecords, KafkaConsumer}
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord, RecordMetadata}
+
+import scala.collection.JavaConversions._
 
 object Main {
 
@@ -39,12 +41,27 @@ object Main {
     consumerProperties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
     consumerProperties.put("group.id", "dummy-group")
 
-    val consumer: KafkaConsumer[String, String] = KafkaConsumer[String, String]
+    val consumer: KafkaConsumer[String, String] = new KafkaConsumer[String, String](consumerProperties)
 
     consumer.subscribe(Collections.singletonList("test"))
 
-    val records = consumer.poll(100)
 
+    while(true) {
+      println("test")
+      val records = consumer.poll(100)
+      for(record:ConsumerRecord[String, String] <- records) {
+        println("checksum " + record.checksum)
+        println("key " + record.key)
+        println("offset " + record.offset)
+        println("partition " + record.partition )
+        println("serializedKeySize " + record.serializedKeySize )
+        println("serializedValueSize " + record.serializedValueSize )
+        println("timestamp " + record.timestamp )
+        println("timestampType " + record.timestampType )
+        println("topic " + record.topic )
+        println("value " + record.value )
+      }
+    }
 
   }
 }
