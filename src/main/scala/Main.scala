@@ -33,6 +33,8 @@ object Main {
       print(e)
     })
 
+    producer.close()
+
     // CONSUMER
 
     val consumerProperties = new Properties()
@@ -62,6 +64,8 @@ object Main {
         println("value " + record.value )
       }
     }
+
+    consumer.close()
 
   }
 }
