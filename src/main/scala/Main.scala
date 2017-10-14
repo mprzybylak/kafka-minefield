@@ -48,6 +48,7 @@ object Main {
       // READING
       val records = consumer.poll(100)
       for(record:ConsumerRecord[String, String] <- records) {
+        println
         println("checksum " + record.checksum)
         println("key " + record.key)
         println("offset " + record.offset)
