@@ -24,7 +24,7 @@ object Main {
     consumerProperties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
     consumerProperties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
     consumerProperties.put("group.id", "dummy-group")
-    val consumer: KafkaConsumer[String, String] = new KafkaConsumer[String, String](consumerProperties)
+    val consumer = new KafkaConsumer[String, String](consumerProperties)
     consumer.subscribe(Collections.singletonList("test"))
 
 
@@ -55,7 +55,7 @@ object Main {
 
       // READING
       val records = consumer.poll(100)
-      for(record:ConsumerRecord[String, String] <- records) {
+      for(record <- records) {
         println
         println("checksum " + record.checksum)
         println("key " + record.key)
