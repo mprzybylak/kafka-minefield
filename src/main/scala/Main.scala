@@ -41,8 +41,16 @@ object Main {
 
       // send with callback
       producer.send(record, (m:RecordMetadata, e:Exception) => {
-        print(m)
-        print(e)
+        println
+        println("producer callback:")
+        println("checksum " + m.checksum())
+        println("offset " + m.offset())
+        println("partition " + m.partition())
+        println("serialized key size " + m.serializedKeySize())
+        println("serialized value size " + m.serializedValueSize())
+        println("timestamp " + m.timestamp())
+        println("topic " + m.topic())
+        println("exception" + e)
       })
 
       // READING
